@@ -42,7 +42,7 @@
 
       <div class="mb-2 input-text">
         <label class="form-label" for="comment">Title</label>
-        <input id="comment" type="text" formControlName="comment" #bookComent>
+        <input id="comment" type="text" formControlName="comment" #bookComment>
 
         <div class="mt-2" *ngIf="comment.invalid && (comment.dirty || comment.touched)" class="alert alert-danger">
           <div *ngIf="comment.erors?.['required'] || comment.errors?.['notOnlyWhiteSpace']">

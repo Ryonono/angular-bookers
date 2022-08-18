@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Book } from '../book';
 
@@ -21,10 +22,10 @@ export class BookService {
   }
 
   getBook(id: number): Observable<Book> {
-    const url = `${this.bookUrl}/ ${id}`;
+    const url = `${this.bookUrl}/${id}`;
     return this.http.get<Book>(url)
       .pipe(
-        tap(= => console.log(`fetched book id = ${id}`)),
+        tap(_ => console.log(`fetched book id = ${id}`)),
         catchError(this.handleError<Book>(`getBook id ='${id}`))
       )
   }
@@ -58,8 +59,8 @@ export class BookService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  @param operation
-  @param result
+  // @param operation
+  // @param result
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

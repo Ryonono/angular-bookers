@@ -1,1 +1,48 @@
-<p>edit works!</p>
+<h2>Edit Book</h2>
+
+<p>This is the edit page of book.</p>
+
+<div *ngIf="book">
+
+  <div class="col-md-10 book-form">
+    <form [formGroup]="bookEditForm">
+
+      <div class="mb-2 input-text">
+        <label class="form-label" for="title">Title</label>
+        <input id="title" type="text" formControlName="title" #bookTitle [(ngModel)]="book.title">
+
+        <div class="mt-2" *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
+          <div *ngIf="title.erors?.['required'] || title.errors?.['notOnlyWhiteSpace']">
+            Title is required.
+          </div>
+          <div *ngIf="title.errors?.['minlength']">
+            Title must be at least two characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2 input-text">
+        <label class="form-label" for="comment">Title</label>
+        <input id="comment" type="text" formControlName="comment" #bookComment [(ngModel)]="book.comment">
+
+        <div class="mt-2" *ngIf="comment.invalid && (comment.dirty || comment.touched)" class="alert alert-danger">
+          <div *ngIf="comment.erors?.['required'] || comment.errors?.['notOnlyWhiteSpace']">
+            Comment is required.
+          </div>
+          <div *ngIf="comment.errors?.['minlength']">
+            Comment must be at least two characters long.
+          </div>
+        </div>
+      </div>
+
+      <button class="btn" type="button" [disabled]="!bookEditForm.valid"
+        (click)="update(bookTitle.value, bookComment.value); bookTitle.value=''; bookComment.value=''; goToBooks()">Update
+        Book</button>
+
+    </form>
+
+    <button class="btn mb-2" (click)="delete(book); goToBooks()">Delete</button>
+    <p><a class="btn" [routerLink]="['/books']">To Index Page</a></p>
+  </div>
+
+</div>
