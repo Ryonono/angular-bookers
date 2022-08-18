@@ -1,0 +1,18 @@
+p {
+  margin: 0px;
+}
+
+.text-title {
+  color: rgb(140, 223, 140);
+  font-size: 30px;
+  margin: 20px 30px;
+}
+
+.input-text {
+  width: 100px;
+}
+
+.form-label {
+  display: inline-block;
+  padding-right: 15px;
+}

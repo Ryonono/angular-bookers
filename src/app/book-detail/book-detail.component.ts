@@ -2,6 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '../book';
 import { BookService } from '../service/book.service';
+// core.mjs:7640 ERROR Error: Uncaught (in promise): NullInjectorError: R3InjectorError(AppModule)[Location -> Location -> Location]: 
+//   NullInjectorError: No provider for Location!
+// NullInjectorError: R3InjectorError(AppModule)[Location -> Location -> Location]:というエラーがでて、detailページに飛ぶことができなかったが、
+// コンポーネント生成時にLocationがまずimportされておらず、読み込めていなかったことが原因だった。 
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-book-detail',
@@ -19,7 +24,7 @@ export class BookDetailComponent implements OnInit {
   }
 
   getBook(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = Number(this.route.snapshot.paramMap.get('id')!);
     this.bookService.getBook(id).subscribe(book => this.book = book);
   }
 
@@ -30,6 +35,6 @@ export class BookDetailComponent implements OnInit {
   goToBooks(): void {
     this.router.navigate(['/books']);
   }
-  
+
 
 }

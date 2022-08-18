@@ -1,0 +1,19 @@
+.input-label {
+  display: inline-block;
+  padding-right: 10px;
+}
+
+p {
+  margin: 0px;
+}
+
+input {
+  width: 300px;
+}
+
+textarea {
+  /* resize: noneで、カスタマーが入力フォームの大きさを変えることによるデザインの崩れを防ぐ */
+  resize: none;
+  width: 600px;
+  height: 70px;
+}

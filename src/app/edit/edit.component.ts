@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '../book';
 import { BooksComponent } from '../books/books.component';
 import { BookService } from '../service/book.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit',
@@ -28,7 +29,7 @@ export class EditComponent implements OnInit {
   }
 
   getBook(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = Number(this.route.snapshot.paramMap.get('id')!);
     this.bookService.getBook(id).subscribe(book => this.book = book);
   }
 

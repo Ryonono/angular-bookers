@@ -5,13 +5,27 @@
 
   <div class="book-detail" *ngIf="book">
 
-    <div>id: {{ book.id }}</div>
-    <div>title: {{ book.title }}</div>
-    <div class="detail-last"> comment: {{ book.comment }}</div>
+    <table class="table table-hover table-striped table-bordered">
+      <tbody>
+        <tr>
+          <th>Id </th>
+          <td>{{ book.id }}</td>
+        </tr>
+        <tr>
+          <th>Title </th>
+          <td>{{ book.title }}</td>
+        </tr>
+        <tr>
+          <th>Comment </th>
+          <td>{{ book.comment }}</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <p class="mt-4"><a class="btn" routerLink="/book/{{book.id}}/edit">Edit</a></p>
-    <button class="btn" (click)="delete(book); goToBooks()">Delete</button>
+
+    <p class="mt-4"><a class="btn btn-outline-info" routerLink="/book/{{book.id}}/edit">Edit</a></p>
+    <button class="btn btn-outline-danger" (click)="delete(book); goToBooks()">Delete</button>
   </div>
 
-  <a class="btn mt-3" routerLink="/books">To Index Page</a>
+  <a class="btn btn-outline-secondary mt-3" routerLink="/books">To Index Page</a>
 </div>

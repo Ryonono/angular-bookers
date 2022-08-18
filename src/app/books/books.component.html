@@ -14,24 +14,24 @@
     <tbody>
       <tr *ngFor="let book of books">
         <td>{{ book.id }}</td>
-        <td><a routerLink="/book/{{book.id}}">{{book.title}}</a></td>
-        <td><a class="btn" routerLink="/book/{{book.id}}/edit">edit</a></td>
-        <td><button class="btn" (click)="delete(book); goToBooks()">Delete</button></td>
+        <td><a routerLink="/book/{{ book.id }}">{{ book.title }}</a></td>
+        <td><a class="btn btn-outline-info" routerLink="/book/{{ book.id }}/edit">edit</a></td>
+        <td><button class="btn btn-outline-danger" (click)="delete(book); goToBooks()">Delete</button></td>
       </tr>
     </tbody>
   </table>
 
 
-  <div class="text-info">New Book</div>
-  <div class="col-md-10 book-form">
+  <div class="text-title">New Book</div>
+  <div class="col-md-10">
     <form [formGroup]="bookForm">
 
       <div class="mb-2 input-text">
-        <label class="form-label" for="title">Title</label>
+        <p><label class="form-label" for="title">Title: </label></p>
         <input id="title" type="text" formControlName="title" #bookTitle>
 
         <div class="mt-2" *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
-          <div *ngIf="title.erors?.['required'] || title.errors?.['notOnlyWhiteSpace']">
+          <div *ngIf="title.errors?.['required'] || title.errors?.['notOnlyWhiteSpace']">
             Title is required.
           </div>
           <div *ngIf="title.errors?.['minlength']">
@@ -41,11 +41,11 @@
       </div>
 
       <div class="mb-2 input-text">
-        <label class="form-label" for="comment">Title</label>
+        <p><label class="form-label" for="comment">Comment: </label></p>
         <input id="comment" type="text" formControlName="comment" #bookComment>
 
         <div class="mt-2" *ngIf="comment.invalid && (comment.dirty || comment.touched)" class="alert alert-danger">
-          <div *ngIf="comment.erors?.['required'] || comment.errors?.['notOnlyWhiteSpace']">
+          <div *ngIf="comment.errors?.['required'] || comment.errors?.['notOnlyWhiteSpace']">
             Comment is required.
           </div>
           <div *ngIf="comment.errors?.['minlength']">
@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <button class="btn" type="button" [disabled]="!bookForm.valid"
+      <button class="btn btn-outline-success" type="button" [disabled]="!bookForm.valid"
         (click)="add(bookTitle.value, bookComment.value); bookTitle.value=''; bookComment.value=''">Create Book</button>
 
     </form>

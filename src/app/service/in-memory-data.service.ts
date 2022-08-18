@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class InMemoryDataService {
 
-  createDB() {
+  createDb() {
 
     const books = [
       { id: 1, title: 'How to learn Python', comment: 'This book teaches us from the fundamental part, so is was very understandable for everyone!' },
