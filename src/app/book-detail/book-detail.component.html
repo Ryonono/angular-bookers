@@ -1,0 +1,17 @@
+<div class="col-md-12">
+  <h2>Book Detail</h2>
+
+  <p>This is the detail page of each book.</p>
+
+  <div class="book-detail" *ngIf="book">
+
+    <div>id: {{ book.id }}</div>
+    <div>title: {{ book.title }}</div>
+    <div class="detail-last"> comment: {{ book.comment }}</div>
+
+    <p class="mt-4"><a class="btn" routerLink="/book/{{book.id}}/edit">Edit</a></p>
+    <button class="btn" (click)="delete(book); goToBooks()">Delete</button>
+  </div>
+
+  <a class="btn mt-3" routerLink="/books">To Index Page</a>
+</div>
