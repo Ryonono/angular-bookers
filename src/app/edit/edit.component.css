@@ -17,3 +17,7 @@ textarea {
   width: 600px;
   height: 70px;
 }
+
+.alert {
+  width: 500px;
+}

@@ -16,3 +16,7 @@ p {
   display: inline-block;
   padding-right: 15px;
 }
+
+.alert {
+  width: 500px;
+}

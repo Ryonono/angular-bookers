@@ -14,6 +14,7 @@ export class BookService {
   constructor(private http: HttpClient) { }
 
   getBooks(): Observable<Book[]> {
+    // httpClientを使用し、その中のgetメソッドを呼び出す（<Book[]>で取り出す対象を定義し、this.bookUrlでどこからとってくるかを指定する
     return this.http.get<Book[]>(this.bookUrl)
       .pipe(
         tap(book => console.log('fetched books')),
@@ -31,9 +32,12 @@ export class BookService {
   }
 
   addBook(book: Book): Observable<Book> {
-    return this.http.post<Book>(this.bookUrl, book)
+    // postメソッドの第一引数はURL,第二引数が加えるデータ、第三引数（オプション）にはヘッダ情報を渡す
+    return this.http.post<Book>(this.bookUrl, book, this.httpOptions)
       .pipe(
-        tap((bookForm: Book) => console.log(`added book id = ${book.id}`)),
+        // 初め、console.logは${book.id}を呼び出していたが、tapメソッドでbookFormをBook型のものとして作成しているので、
+        // ここはbookForm.idとする必要があった→正味tapメソッドの初めの引数はなんでも良いので、bookに変更
+        tap((book: Book) => console.log(`added book id = ${book.id}`)),
         catchError(this.handleError<Book>('addBook'))
       );
   }

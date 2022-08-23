@@ -15,7 +15,8 @@ export class BooksComponent implements OnInit {
   books: Book[] = [];
 
   static notOnlyWhiteSpace(control: FormControl): ValidationErrors | null {
-    if ((control.value != null) && (control.value.trim().length == 0)) {
+    if ((control.value != null) && (control.value.trim().length === 0)) {
+      console.log('notOnlyWhiteSpace Error');
       return { 'notOnlyWhiteSpace': true };
     }
     return null;
