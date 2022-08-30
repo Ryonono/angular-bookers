@@ -1,0 +1,28 @@
+<div id="search-component">
+
+  <label for="search-box">Book Search</label><br>
+  <input id="search-box" #searchBox (input)="search(searchBox.value)">
+
+  <!-- 検索語と一致する結果を得られた時のみテーブルを表示したい -->
+  <div>
+    <table class="table table-striped table-hover mt-1">
+      <thead class="table-light">
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- $はbooksが配列ではなく、Observableであることを示す規則 -->
+        <!-- そのままだとObservableは何も表示できないので、asyncを使用することで自動的にsubscribeしてくれる -->
+        <tr *ngFor="let book of books$ | async ">
+          <td>{{ book.id }}</td>
+          <td><a routerLink="/book/{{ book.id }}">{{ book.title }}</a></td>
+          <td><a class="btn btn-outline-info" routerLink="/book/{{ book.id }}/edit">edit</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

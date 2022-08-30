@@ -10,6 +10,7 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './service/in-memory-data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BookSearchComponent } from './book-search/book-search.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     BookDetailComponent,
     BooksComponent,
     EditComponent,
+    BookSearchComponent,
   ],
   imports: [
     BrowserModule,

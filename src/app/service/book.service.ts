@@ -74,4 +74,16 @@ export class BookService {
     };
   }
 
+
+  searchBooks(term: string): Observable<Book[]> {
+    if (!term.trim()) {
+      return of([]);
+    }
+    // ?name=${term}この部分だけで勝手に検索結果を絞って表示してくれるのか、？
+    return this.http.get<Book[]>(`${this.bookUrl}/?title=${term}`).pipe(
+      tap(_ => console.log(`found books matching title = "${term}"`)),
+      catchError(this.handleError<Book[]>('searchBooks', []))
+    );
+  }
+
 }
