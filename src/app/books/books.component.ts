@@ -6,9 +6,11 @@ import { BookService } from '../service/book.service';
 import { Location } from '@angular/common'
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { ColoredDirective } from '../color.directive';
 
 @Component({
   selector: 'app-books',
+  // template: `<span myColored="red">ideal book</span>`,
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
@@ -17,6 +19,9 @@ export class BooksComponent implements OnInit {
   books: Book[] = [];
 
   books$!: Observable<Book[]>;
+
+  // 説明書と違ってコンポーネントで別のファイルを参照しているので、colorについて何かしらの初期値が必要→かつこの初期値は、自作のDirectiveよりも優先的に呼び出されるので、注意
+  color = "lightblue";
 
   private searchTerms = new Subject<string>();
 
@@ -35,6 +40,7 @@ export class BooksComponent implements OnInit {
   })
 
   constructor(private bookService: BookService, private location: Location, private router: Router) { }
+
 
   search(term: string): void {
     this.searchTerms.next(term);
@@ -56,6 +62,7 @@ export class BooksComponent implements OnInit {
     //   this.getBooks();
     // }
   }
+
 
 
   getBooks(): void {
@@ -83,7 +90,6 @@ export class BooksComponent implements OnInit {
   goToBooks() {
     this.ngOnInit();
   }
-
 
 
 }

@@ -11,6 +11,7 @@ import { InMemoryDataService } from './service/in-memory-data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BookSearchComponent } from './book-search/book-search.component';
+import { ColoredDirective } from './color.directive';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { BookSearchComponent } from './book-search/book-search.component';
     BooksComponent,
     EditComponent,
     BookSearchComponent,
+    ColoredDirective
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,8 @@ import { BookSearchComponent } from './book-search/book-search.component';
     // HttpClientModuleは必ずBrowserModuleの後に記述する
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }),
+      InMemoryDataService, { dataEncapsulation: false }
+    ),
     ReactiveFormsModule
   ],
   providers: [],
