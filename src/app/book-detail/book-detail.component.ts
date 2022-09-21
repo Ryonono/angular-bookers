@@ -14,10 +14,10 @@ import { Location } from '@angular/common';
   styleUrls: ['./book-detail.component.css']
 })
 export class BookDetailComponent implements OnInit {
+  public book?: Book;
 
   constructor(private route: ActivatedRoute, private bookService: BookService, private location: Location, private router: Router) { }
 
-  @Input() book?: Book;
 
   ngOnInit(): void {
     this.getBook();

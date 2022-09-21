@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, throwIfEmpty } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Book } from '../book';
 
@@ -75,13 +75,16 @@ export class BookService {
   }
 
 
+  // searchBooksの際、trimした後のデータの長さが0であれば、一覧画面を表示できるように設定はできた（goToBooks()のような感じで、別で定義したメソッドをthis.メソッドという形で呼び出せば良いことがわかった）
+  // →　＋αで、templateの部分でngIfを用いて条件分岐をしたら、初期状態なら
   searchBooks(term: string): Observable<Book[]> {
-    if (!term.trim()) {
-      return of([]);
+    if (term.trim().length == 0) {
+      return this.getBooks();
     }
     // ?name=${term}この部分だけで勝手に検索結果を絞って表示してくれるのか、？
-    return this.http.get<Book[]>(`${this.bookUrl}/?title=${term}`).pipe(
-      tap(_ => console.log(`found books matching title = "${term}"`)),
+    // trimメソッドを用いることで、検索結果にも前後の空白は含まないように設定できた
+    return this.http.get<Book[]>(`${this.bookUrl}/?title=${term.trim()}`).pipe(
+      tap(_ => console.log(`found books matching title = "${term.trim()}"`)),
       catchError(this.handleError<Book[]>('searchBooks', []))
     );
   }

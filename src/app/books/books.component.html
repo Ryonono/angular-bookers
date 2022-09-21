@@ -1,68 +1,87 @@
 <div class="col-md-10">
 
   <h2>If you want to search specific book you can use this space!</h2>
-  <app-book-search></app-book-search>
-
-  <h2>This is index page</h2>
-
-  <table class="table table-striped table-hover">
-    <thead class="table-light">
-      <tr>
-        <th>Id</th>
-        <th>Title</th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let book of books">
-        <td>{{ book.id }}</td>
-        <td><a routerLink="/book/{{ book.id }}">{{ book.title }}</a></td>
-        <td><a class="btn btn-outline-info" routerLink="/book/{{ book.id }}/edit">edit</a></td>
-        <td><button class="btn btn-outline-danger" (click)="delete(book); goToBooks()">Delete</button></td>
-      </tr>
-    </tbody>
-  </table>
 
 
-  <div class="text-title">New Book</div>
-  <div class="col-md-10">
-    <form [formGroup]="bookForm">
+  <!-- <h2>This is index page</h2> -->
 
-      <div class="mb-2 input-text">
-        <p><label class="form-label" for="title">Title: </label></p>
-        <input id="title" type="text" formControlName="title" #bookTitle>
-        <!-- [(ngModel)]="title"は要らなかった-->
+  <div id="search-component">
 
-        <div class="mt-2" *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
-          <!-- この状態で、ログを出してみたらnotOnlyWhiteSpaceはうまく作動していた -->
-          <div *ngIf="title.errors?.['required'] || title.errors?.['notOnlyWhiteSpace']">
-            Title is required and only space is not allowed.
-          </div>
-          <div *ngIf="title.errors?.['minlength']">
-            Title must be at least two characters long.
+    <label for="search-box">Book Search</label><br>
+    <input id="search-box" #searchBox (input)="search(searchBox.value)">
+
+    <table class="table table-striped table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- この記述で、search文と一覧画面を分けることができた →ただ、読み込み時間がすごく長い -->
+        <div *ngIf="search(searchBox.value) !== null ; then trueBlock; else elseBlock">
+        </div>
+        <ng-template #trueBlock>
+          <tr *ngFor="let book of books$ | async ">
+            <td>{{ book.id }}</td>
+            <td><a routerLink="/book/{{ book.id }}">{{ book.title }}</a></td>
+            <td><a class="btn btn-outline-info" routerLink="/book/{{ book.id }}/edit">edit</a></td>
+            <td><button class="btn btn-outline-danger" (click)="delete(book); goToBooks()">Delete</button></td>
+          </tr>
+        </ng-template>
+        <ng-template #elseBlock>
+          <tr *ngFor="let book of books">
+            <td>{{ book.id }}</td>
+            <td><a routerLink="/book/{{ book.id }}">{{ book.title }}</a></td>
+            <td><a class="btn btn-outline-info" routerLink="/book/{{ book.id }}/edit">edit</a></td>
+            <td><button class="btn btn-outline-danger" (click)="delete(book); goToBooks()">Delete</button></td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+
+
+
+    <div class="text-title">New Book</div>
+    <div class="col-md-10">
+      <form [formGroup]="bookForm">
+
+        <div class="mb-2 input-text">
+          <p><label class="form-label" for="title">Title: </label></p>
+          <input id="title" type="text" formControlName="title" #bookTitle>
+          <!-- [(ngModel)]="title"は要らなかった-->
+
+          <div class="mt-2" *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
+            <!-- この状態で、ログを出してみたらnotOnlyWhiteSpaceはうまく作動していた -->
+            <div *ngIf="title.errors?.['required'] || title.errors?.['notOnlyWhiteSpace']">
+              Title is required and only space is not allowed.
+            </div>
+            <div *ngIf="title.errors?.['minlength']">
+              Title must be at least two characters long.
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="mb-2 input-text">
-        <p><label class="form-label" for="comment">Comment: </label></p>
-        <input id="comment" type="text" formControlName="comment" #bookComment>
+        <div class="mb-2 input-text">
+          <p><label class="form-label" for="comment">Comment: </label></p>
+          <input id="comment" type="text" formControlName="comment" #bookComment>
 
-        <div class="mt-2" *ngIf="comment.invalid && (comment.dirty || comment.touched)" class="alert alert-danger">
-          <div *ngIf="comment.errors?.['required'] || comment.errors?.['notOnlyWhiteSpace']">
-            Comment is required and only space is not allowed.
-          </div>
-          <div *ngIf="comment.errors?.['minlength']">
-            Comment must be at least two characters long.
+          <div class="mt-2" *ngIf="comment.invalid && (comment.dirty || comment.touched)" class="alert alert-danger">
+            <div *ngIf="comment.errors?.['required'] || comment.errors?.['notOnlyWhiteSpace']">
+              Comment is required and only space is not allowed.
+            </div>
+            <div *ngIf="comment.errors?.['minlength']">
+              Comment must be at least two characters long.
+            </div>
           </div>
         </div>
-      </div>
 
-      <button class="btn btn-outline-success" type="button" [disabled]="!bookForm.valid"
-        (click)="add(bookTitle.value, bookComment.value); bookTitle.value=''; bookComment.value=''">Create
-        Book</button>
+        <button class="btn btn-outline-success" type="button" [disabled]="!bookForm.valid"
+          (click)="add(bookTitle.value, bookComment.value); bookTitle.value=''; bookComment.value=''">Create
+          Book</button>
 
-    </form>
+      </form>
+    </div>
   </div>
-</div>

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Book } from '../book';
 import { BookService } from '../service/book.service';
 import { Location } from '@angular/common'
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-books',
@@ -13,6 +15,10 @@ import { Location } from '@angular/common'
 export class BooksComponent implements OnInit {
 
   books: Book[] = [];
+
+  books$!: Observable<Book[]>;
+
+  private searchTerms = new Subject<string>();
 
   static notOnlyWhiteSpace(control: FormControl): ValidationErrors | null {
     if ((control.value != null) && (control.value.trim().length === 0)) {
@@ -30,9 +36,27 @@ export class BooksComponent implements OnInit {
 
   constructor(private bookService: BookService, private location: Location, private router: Router) { }
 
-  ngOnInit(): void {
-    this.getBooks();
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
+
+  // ユーザーがキーボードを動かすたびに同期的にbookServiceのsearchBooksを呼び出していては、サーバーリソースを圧迫してしまう
+  // →いくつかのRxjsオペレータをつなげることで、条件をクリアした時のみbookServiceにアクセスするようにしている
+  ngOnInit(): void {
+    // this.getBooks();
+    this.books$ = this.searchTerms.pipe(
+      // inputの中身が変化した後、検索前に100ms待つ
+      debounceTime(100),
+      // 直前の検索語と同じ場合は無視する
+      distinctUntilChanged(),
+      // 検索語が変化する度に、新しい検索observableにスイッチする
+      switchMap((term: string) => this.bookService.searchBooks(term))
+    );
+    // if ((term: string) => this.bookService.searchBooks(term) === null) {
+    //   this.getBooks();
+    // }
+  }
+
 
   getBooks(): void {
     this.bookService.getBooks().subscribe(books => this.books = books);
@@ -54,6 +78,7 @@ export class BooksComponent implements OnInit {
 
   get title() { return this.bookForm.get('title')!; }
   get comment() { return this.bookForm.get('comment')!; }
+
 
   goToBooks() {
     this.ngOnInit();
