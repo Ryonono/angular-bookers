@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BookSearchComponent } from './book-search/book-search.component';
 import { ColoredDirective } from './color.directive';
+import { TrimPipe } from './trim.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ColoredDirective } from './color.directive';
     BooksComponent,
     EditComponent,
     BookSearchComponent,
-    ColoredDirective
+    ColoredDirective,
+    TrimPipe
   ],
   imports: [
     BrowserModule,

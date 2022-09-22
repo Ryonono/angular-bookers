@@ -84,7 +84,7 @@ export class BookService {
     // ?name=${term}この部分だけで勝手に検索結果を絞って表示してくれるのか、？
     // trimメソッドを用いることで、検索結果にも前後の空白は含まないように設定できた
     return this.http.get<Book[]>(`${this.bookUrl}/?title=${term.trim()}`).pipe(
-      tap(_ => console.log(`found books matching title = "${term.trim()}"`)),
+      tap(_ => console.log(`searched books matching title = "${term.trim()}"`)),
       catchError(this.handleError<Book[]>('searchBooks', []))
     );
   }
